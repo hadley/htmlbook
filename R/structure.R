@@ -4,6 +4,7 @@ process_book <- function(path = "_book") {
   htmls <- lapply(files, read_html)
 
   lapply(htmls, extract_main)
+  lapply(htmls, header_update)
 
   out_path <- file.path("oreilly/", basename(files))
   dir.create("oreilly", showWarnings = FALSE)
@@ -32,3 +33,15 @@ extract_main <- function(html, type = c("chapter", "part", "bibliography", "glos
   invisible()
 }
 
+header_update <- function(html) {
+  # Replace <header> with single <h1>
+  h1 <- xml_find_first(html, "//h1")
+  xml_attr(h1, "class") <- NULL
+  header <- xml_find_first(html, "//header")
+  xml_replace(header, h1)
+
+  # Remove title metadata block
+  title_meta <- xml_children(xml_find_first(html, "//main[@id='quarto-title_meta']"))
+  xml_remove(title_meta)
+
+}
