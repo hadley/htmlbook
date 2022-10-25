@@ -64,6 +64,12 @@ header_update <- function(html) {
   xml_attr(headings, "data-number") <- NULL
   xml_attr(headings, "data-anchor-id") <- NULL
 
+  # HTML book uses h1 for sect1 titles, so we need to move every heading up a
+  # level
+  xml_set_name(xml_find_all(html, "//h2"), "h1")
+  xml_set_name(xml_find_all(html, "//h3"), "h2")
+  xml_set_name(xml_find_all(html, "//h4"), "h3")
+  xml_set_name(xml_find_all(html, "//h5"), "h4")
 }
 
 section_update <- function(html) {
