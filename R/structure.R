@@ -44,4 +44,22 @@ header_update <- function(html) {
   title_meta <- xml_children(xml_find_first(html, "//main[@id='quarto-title_meta']"))
   xml_remove(title_meta)
 
+  # Strip chapter-number and following space
+  chapter_nums <- xml_find_all(html, "//span[@class='chapter-number']")
+  padding <- xml_find_all(chapter_nums, "following-sibling::text()")
+  xml_remove(chapter_nums)
+  xml_remove(padding)
+
+  # Strip section-number and following space
+  section_nums <- xml_find_all(html, "//span[@class='header-section-number']")
+  text <- xml_find_all(section_nums, "following-sibling::text()[1]")
+  xml_remove(section_nums)
+  xml_text(text) <- trimws(xml_text(text))
+
+  # Strip class and unneeded data attributes
+  headings <- xml_find_all(html, "//h1|//h2|//h3|//h4|//h5")
+  xml_attr(headings, "class") <- NULL
+  xml_attr(headings, "data-number") <- NULL
+  xml_attr(headings, "data-anchor-id") <- NULL
+
 }
