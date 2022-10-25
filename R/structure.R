@@ -5,6 +5,7 @@ process_book <- function(path = "_book") {
 
   lapply(htmls, extract_main)
   lapply(htmls, header_update)
+  lapply(htmls, section_update)
 
   out_path <- file.path("oreilly/", basename(files))
   dir.create("oreilly", showWarnings = FALSE)
@@ -61,5 +62,20 @@ header_update <- function(html) {
   xml_attr(headings, "class") <- NULL
   xml_attr(headings, "data-number") <- NULL
   xml_attr(headings, "data-anchor-id") <- NULL
+
+}
+
+section_update <- function(html) {
+  # Find all sections within top-level "page" section
+  section <- xml_find_first(html, "//section//section")
+
+  # figure out depth, which is one less than quarto's
+  class <- xml_attr(section, "class")
+  depth <- as.numeric(gsub("level", "", class)) - 1
+
+  # set data-type attribute and clear others
+  xml_attr(section, "data-type") <- paste0("sect", depth)
+  xml_attr(section, "class") <- NULL
+  xml_attr(section, "data-number") <- NULL
 
 }
