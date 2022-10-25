@@ -1,6 +1,8 @@
 
 process_book <- function(path = "_book") {
   files <- dir(path, pattern = "\\.html$", full.names = TRUE)
+  files <- files[basename(files) != "index.html"]
+
   htmls <- lapply(files, read_html)
 
   lapply(htmls, extract_main)
