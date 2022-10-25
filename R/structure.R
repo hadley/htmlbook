@@ -59,6 +59,7 @@ header_update <- function(html) {
 
   # Strip class and unneeded data attributes
   headings <- xml_find_all(html, "//h1|//h2|//h3|//h4|//h5")
+  xml_add_sibling(headings, text("\n"), .where = "before")
   xml_attr(headings, "class") <- NULL
   xml_attr(headings, "data-number") <- NULL
   xml_attr(headings, "data-anchor-id") <- NULL
@@ -67,15 +68,23 @@ header_update <- function(html) {
 
 section_update <- function(html) {
   # Find all sections within top-level "page" section
-  section <- xml_find_first(html, "//section//section")
+  section <- xml_find_all(html, "//section//section")
 
   # figure out depth, which is one less than quarto's
   class <- xml_attr(section, "class")
   depth <- as.numeric(gsub("level", "", class)) - 1
+  # TODO: process footnotes first to avoid NAs introduced by coercion warning
 
   # set data-type attribute and clear others
   xml_attr(section, "data-type") <- paste0("sect", depth)
   xml_attr(section, "class") <- NULL
   xml_attr(section, "data-number") <- NULL
 
+  # Add a little padding
+  xml_add_sibling(section, text("\n"), .where = "before")
+  xml_add_sibling(section, text("\n"), .where = "after")
+}
+
+text <- function(x) {
+  xml_contents(read_xml(paste0("<node>", x, "</node>")))
 }
