@@ -16,6 +16,12 @@ process_book <- function(path = "_book") {
     write_html(htmls[[i]], out_path[[i]])
   }
 
+  # strip doc type declaration
+  for (path in out_path) {
+    lines <- brio::read_lines(path)
+    brio::write_lines(lines[-1], path)
+  }
+
   invisible()
 
 }
