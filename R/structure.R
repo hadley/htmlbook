@@ -11,13 +11,14 @@ process_book <- function(path = "_book") {
   lapply(htmls, section_update)
   lapply(htmls, callout_update)
   lapply(htmls, code_update)
+  lapply(htmls, figure_update)
   Map(crossref_update, htmls, basename(files))
 
   out_path <- file.path("oreilly/", basename(files))
   dir.create("oreilly", showWarnings = FALSE)
 
   for (i in seq_along(htmls)) {
-    write_html(htmls[[i]], out_path[[i]])
+    write_xml(htmls[[i]], out_path[[i]])
   }
 
   # strip doc type declaration
@@ -209,13 +210,28 @@ code_update <- function(html) {
   xml_attr(pre, "class") <- NULL
 
   # Container contents into top-level
-  for (i in seq_along(container)) {
-    nodes <- xml_contents(container[i])
-    for (node in nodes) {
-      xml_add_sibling(container[i], nodes, .where = "before")
-    }
-  }
-  xml_remove(container)
+  xml_hoist_children(container)
+}
+
+figure_update <- function(html, filename) {
+  # <div class="cell-output-display">
+  #   <div id="fig-hist" class="quarto-figure quarto-figure-center anchored">
+  #     <figure class="figure"><p><img src="code_files/figure-html/fig-hist-1.png" class="img-fluid figure-img" alt="This is some alt-text" width="672"></p>
+  #   </div>
+  # </div>
+
+  # Need to move id from div to figure
+  container <- xml_find_all(html, "//div[contains(@class,'quarto-figure')]")
+  if (length(container) == 0) return()
+
+  id <- xml_attr(container, "id")
+  xml_attr(container, "id") <- NULL
+
+  figure <- xml_find_first(container, "//figure")
+  xml_attr(figure, "id") <- id
+
+  p_empty <- xml_find_all(figure, "//p[not(node())]")
+  xml_remove(p_empty)
 
 }
 
