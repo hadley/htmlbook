@@ -10,6 +10,8 @@ process_book <- function(path = "_book") {
   lapply(htmls, footnote_update)
   lapply(htmls, section_update)
   lapply(htmls, callout_update)
+  lapply(htmls, code_update)
+  Map(crossref_update, htmls, basename(files))
 
   out_path <- file.path("oreilly/", basename(files))
   dir.create("oreilly", showWarnings = FALSE)
@@ -179,6 +181,47 @@ footnote_update <- function(html) {
   }
 
   xml_remove(container)
+}
+
+code_update <- function(html) {
+  pre <- xml_find_all(html, "//pre")
+  if (length(pre) == 0) return()
+
+  # Strip syntax highlighting from <pre> blocks
+  pre_text <- xml_text(pre)
+  for (i in seq_along(pre)) {
+    node <- pre[i]
+    xml_remove(xml_contents(node))
+    xml_add_child(node, text(pre_text[[i]]))
+  }
+}
+
+crossref_update <- function(html, filename) {
+  # Quarto doesn't add id to top-level section, so we need to do so
+  section <- xml_find_first(html, "//section")
+  xml_attr(section, "id") <- paste0("chp-", tools::file_path_sans_ext(filename))
+
+  # Find all local links
+  a <- xml_find_all(html, "//a[not(contains(., '://'))]")
+  href <- xml_attr(a, "href")
+
+  xml_remove(xml_contents(a))
+  xml_attr(a, "data-type") <- "xref"
+  xml_text(a) <- href
+
+  ok <- grepl("^#", href)
+  a <- a[!ok]
+  href <- href[!ok]
+
+  if (length(a) == 0) return()
+
+  # Strip file name from section links; switch chapter links to use id
+  xml_attr(a, "href") <- paste0("#", ifelse(
+    grepl("#", href),
+    gsub("^.+#", "", href),
+    paste0("chp-", tools::file_path_sans_ext(href))
+  ))
+  xml_text(a) <- xml_attr(a, "href")
 }
 
 text <- function(x) {
