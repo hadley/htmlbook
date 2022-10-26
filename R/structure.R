@@ -229,10 +229,21 @@ figure_update <- function(html, filename) {
 
   figure <- xml_find_first(container, "//figure")
   xml_attr(figure, "id") <- id
+  xml_attr(figure, "class") <- NULL
+
+  img <- xml_find_all(container, "//img")
+  xml_attr(img, "class") <- NULL
+
+  caption <- xml_find_first(container, "//figcaption")
+  xml_text(caption) <- gsub("Figure \\d+\\.\\d+: ", "", xml_text(caption))
+  xml_attr(caption, "aria-hidden") <- NULL
+  xml_attr(caption, "class") <- NULL
 
   p_empty <- xml_find_all(figure, "//p[not(node())]")
   xml_remove(p_empty)
 
+  # And hoist children into parent, removing div
+  xml_hoist_children(container)
 }
 
 crossref_update <- function(html, filename) {
