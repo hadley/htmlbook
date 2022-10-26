@@ -18,7 +18,7 @@ process_book <- function(path = "_book") {
   dir.create("oreilly", showWarnings = FALSE)
 
   for (i in seq_along(htmls)) {
-    write_xml(htmls[[i]], out_path[[i]])
+    write_html(htmls[[i]], out_path[[i]], options = c("format", "no_declaration", "require_xhtml"))
   }
 
   # strip doc type declaration
