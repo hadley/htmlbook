@@ -8,6 +8,7 @@ process_book <- function(path = "_book") {
   lapply(htmls, extract_main)
   lapply(htmls, header_update)
   lapply(htmls, section_update)
+  lapply(htmls, callout_update)
 
   out_path <- file.path("oreilly/", basename(files))
   dir.create("oreilly", showWarnings = FALSE)
@@ -97,6 +98,48 @@ section_update <- function(html) {
   # Add a little padding
   xml_add_sibling(section, text("\n"), .where = "before")
   xml_add_sibling(section, text("\n"), .where = "after")
+}
+
+callout_update <- function(html) {
+  update_type <- function(type, title = type) {
+    div <- xml_find_all(html, paste0("//div[contains(@class,'callout-", type, "')]"))
+    if (length(div) == 0) return()
+
+    # Use O'Reilly data-type instead of class
+    xml_attr(div, "class") <- NULL
+    xml_attr(div, "data-type") <- type
+    xml_add_sibling(div, text("\n"), .where = "after")
+
+    # Move non-default head to <h1>
+    head <- xml_find_all(div, ".//div[contains(@class,'callout-caption-container')]")
+    if (tolower(xml_text(head, trim = TRUE)) != title) {
+      xml_name(head) <- "h1"
+      xml_attr(head, "class") <- NULL
+      xml_add_child(div, head)
+    } else {
+      xml_remove(head)
+    }
+
+    # Hoist body out of div
+    body <- xml_find_all(div, "./div[contains(@class,'callout-body-container')]")
+    for (node in xml_contents(body)) {
+      xml_add_child(div, node)
+    }
+    xml_remove(body)
+
+    # Remove excess new lines
+    blank <- xml_find_all(div, "text()[.='\n']")
+    xml_remove(blank)
+  }
+
+  update_type("note")
+  update_type("tip")
+  update_type("warning")
+  update_type("caution", "danger")
+  update_type("important")
+
+  header <- xml_find_all(html, "//div[contains(@class, 'callout-header')]")
+  xml_remove(header)
 }
 
 text <- function(x) {

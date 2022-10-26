@@ -67,6 +67,14 @@ This is a note
 This is a warning
 :::
 
+::: callout-tip
+This is a tip
+:::
+
+::: callout-caution
+This is a caution
+:::
+
 ::: callout-important
 ## This is a heading
 
