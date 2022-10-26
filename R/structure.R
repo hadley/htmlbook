@@ -275,5 +275,9 @@ crossref_update <- function(html, filename) {
 }
 
 text <- function(x) {
+  x <- gsub("&", "&amp;", x)
+  x <- gsub("<", "&lt;", x)
+  x <- gsub(">", "&gt;", x)
+
   xml_contents(read_xml(paste0("<node>", x, "</node>")))
 }
