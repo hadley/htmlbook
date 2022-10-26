@@ -7,6 +7,7 @@ process_book <- function(path = "_book") {
 
   lapply(htmls, extract_main)
   lapply(htmls, header_update)
+  lapply(htmls, footnote_update)
   lapply(htmls, section_update)
   lapply(htmls, callout_update)
 
@@ -140,6 +141,44 @@ callout_update <- function(html) {
 
   header <- xml_find_all(html, "//div[contains(@class, 'callout-header')]")
   xml_remove(header)
+}
+
+footnote_update <- function(html) {
+  container <- xml_find_all(html, "//section[contains(@class, 'footnotes')]")
+  if (length(container) == 0) return()
+
+  backlinks <- xml_find_all(html, "//a[contains(@class, 'footnote-back')]")
+  xml_remove(backlinks)
+
+  # Find footnote contents
+  footnotes <- xml_find_all(container, ".//li")
+  footnote_contents <- xml_find_all(footnotes, "p")
+  footnote_id <- xml_attr(footnotes, "id")
+
+  # <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup>
+  refs <- xml_find_all(html, "//a[contains(@class, 'footnote-ref')]")
+  ref_id <- gsub("^#", "", xml_attr(refs, "href"))
+
+  replacements <- footnote_contents[match(ref_id, footnote_id)]
+
+  # Turn references into spans containing footnote contents
+  xml_name(refs) <- "span"
+  xml_attr(refs, "href") <- NULL
+  xml_attr(refs, "class") <- NULL
+  xml_attr(refs, "id") <- NULL
+  xml_attr(refs, "role") <- NULL
+  xml_attr(refs, "data-type") <- "footnote"
+  xml_remove(xml_children(refs))
+
+  for (i in seq_along(refs)) {
+    target <- refs[[i]]
+    nodes <- xml_contents(replacements[[i]])
+    for (node in nodes) {
+      xml_add_child(target, node)
+    }
+  }
+
+  xml_remove(container)
 }
 
 text <- function(x) {

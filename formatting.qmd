@@ -6,8 +6,11 @@
 -   **bold**
 -   `code`
 -   footnote[^formatting-1]
+-   footnote with style[^formatting-2]
 
 [^formatting-1]: This is a footnote.
+
+[^formatting-2]: This is another footnote, but *this* one `has` **style**!
 
 ## Cross-links
 
