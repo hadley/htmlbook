@@ -1,11 +1,14 @@
 
-process_book <- function(path = "_book") {
+process_book <- function(path = "_book", yaml = "_quarto.yml") {
   files <- dir(path, pattern = "\\.html$", full.names = TRUE)
   files <- files[basename(files) != "index.html"]
+  names <- tools::file_path_sans_ext(basename(files))
+
+  chapters <- chapter_types(yaml)
 
   htmls <- lapply(files, read_html)
 
-  lapply(htmls, extract_main)
+  Map(extract_main, htmls, chapters[names])
   lapply(htmls, header_update)
   lapply(htmls, footnote_update)
   lapply(htmls, section_update)
@@ -31,7 +34,7 @@ process_book <- function(path = "_book") {
 
 }
 
-extract_main <- function(html, type = c("chapter", "part", "bibliography", "glossary", "preface")) {
+extract_main <- function(html, type = c("chapter", "part", "bibliography", "glossary", "preface", "appendix")) {
   type <- arg_match(type)
 
   content <- xml_children(xml_find_first(html, "//main[@id='quarto-document-content']"))
