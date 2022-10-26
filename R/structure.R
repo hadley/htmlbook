@@ -184,8 +184,10 @@ footnote_update <- function(html) {
 }
 
 code_update <- function(html) {
-  pre <- xml_find_all(html, "//pre")
-  if (length(pre) == 0) return()
+  container <- xml_find_all(html, "//div[contains(@class,'sourceCode')]")
+  if (length(container) == 0) return()
+
+  pre <- xml_find_all(container, ".//pre")
 
   # Strip syntax highlighting from <pre> blocks
   pre_text <- xml_text(pre)
@@ -194,6 +196,27 @@ code_update <- function(html) {
     xml_remove(xml_contents(node))
     xml_add_child(node, text(pre_text[[i]]))
   }
+
+  # And instead set syntax highlight language
+  xml_attr(pre, "data-type") <- "programlisting"
+  class <- xml_attr(pre, "class")
+  pieces <- strsplit(class, " ")
+  language <- vapply(pieces,
+    \(x) setdiff(x, c("sourceCode", "code-with-copy"))[1],
+    character(1)
+  )
+  xml_attr(pre, "data-code-language") <- language
+  xml_attr(pre, "class") <- NULL
+
+  # Container contents into top-level
+  for (i in seq_along(container)) {
+    nodes <- xml_contents(container[i])
+    for (node in nodes) {
+      xml_add_sibling(container[i], nodes, .where = "before")
+    }
+  }
+  xml_remove(container)
+
 }
 
 crossref_update <- function(html, filename) {
