@@ -13,6 +13,9 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Imports: 
     brio,
+    purrr (>= 0.9000.0.9000),
     rlang,
     xml2,
     yaml
+Remotes:  
+    tidyverse/purrr
