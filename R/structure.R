@@ -7,6 +7,17 @@ process_book <- function(path = "_book", yaml = "_quarto.yml") {
   files <- paste0(path, "/", names(chapters), ".html")
   htmls <- lapply(files, read_html)
 
+  out_path <- file.path("oreilly/", basename(files))
+  dir.create("oreilly", showWarnings = FALSE)
+  write_files <- function() {
+    purrr::walk2(
+      htmls,
+      out_path,
+      write_html,
+      options = c("format", "no_declaration", "require_xhtml")
+    )
+  }
+
   map2(htmls, chapters, extract_main, .progress = "main")
   map(htmls, header_update, .progress = "header")
   map(htmls, footnote_update, .progress = "footnote")
@@ -16,16 +27,7 @@ process_book <- function(path = "_book", yaml = "_quarto.yml") {
   map(htmls, figure_update, .progress = "figure")
   map2(htmls, basename(files), crossref_update, .progress = "crossref")
 
-  out_path <- file.path("oreilly/", basename(files))
-  dir.create("oreilly", showWarnings = FALSE)
-
-  for (i in seq_along(htmls)) {
-    write_html(
-      htmls[[i]],
-      out_path[[i]],
-      options = c("format", "no_declaration", "require_xhtml")
-    )
-  }
+  write_files()
 
   # strip doc type declaration
   for (path in out_path) {
