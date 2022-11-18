@@ -1,27 +1,30 @@
+#' @importFrom purrr map map2
+NULL
 
 process_book <- function(path = "_book", yaml = "_quarto.yml") {
-  files <- dir(path, pattern = "\\.html$", full.names = TRUE)
-  files <- files[basename(files) != "index.html"]
-  names <- tools::file_path_sans_ext(basename(files))
-
   chapters <- chapter_types(yaml)
 
+  files <- paste0(path, "/", names(chapters), ".html")
   htmls <- lapply(files, read_html)
 
-  Map(extract_main, htmls, chapters[names])
-  lapply(htmls, header_update)
-  lapply(htmls, footnote_update)
-  lapply(htmls, section_update)
-  lapply(htmls, callout_update)
-  lapply(htmls, code_update)
-  lapply(htmls, figure_update)
-  Map(crossref_update, htmls, basename(files))
+  map2(htmls, chapters, extract_main, .progress = "main")
+  map(htmls, header_update, .progress = "header")
+  map(htmls, footnote_update, .progress = "footnote")
+  map(htmls, section_update, .progress = "section")
+  map(htmls, callout_update, .progress = "callout")
+  map(htmls, code_update, .progress = "code")
+  map(htmls, figure_update, .progress = "figure")
+  map2(htmls, basename(files), crossref_update, .progress = "crossref")
 
   out_path <- file.path("oreilly/", basename(files))
   dir.create("oreilly", showWarnings = FALSE)
 
   for (i in seq_along(htmls)) {
-    write_html(htmls[[i]], out_path[[i]], options = c("format", "no_declaration", "require_xhtml"))
+    write_html(
+      htmls[[i]],
+      out_path[[i]],
+      options = c("format", "no_declaration", "require_xhtml")
+    )
   }
 
   # strip doc type declaration
@@ -30,11 +33,27 @@ process_book <- function(path = "_book", yaml = "_quarto.yml") {
     brio::write_lines(lines[-1], path)
   }
 
-  invisible()
+  # Copy images
+  resources <- files |> map(rmarkdown::find_external_resources)
+  paths <- resources |> map("path") |> list_c() |> unique()
+  images <- paths[tools::file_ext(paths) %in% c("png", "jpg")]
 
+  dirs <- images |> dirname() |> unique()
+  dirs <- file.path("oreilly", dirs)
+  dirs |> walk(dir.create, recursive = TRUE, showWarnings = FALSE)
+  file.copy(images, file.path("oreilly", images))
+
+  # Copy plots
+  files <- dir("_bookdown_files", pattern = "_files$")
+  src_files <- file.path("_bookdown_files", files)
+  dest_files <- file.path("oreilly", files)
+  file.copy(src_files, "oreilly", recursive = TRUE)
+
+  invisible()
 }
 
 extract_main <- function(html, type = c("chapter", "part", "bibliography", "glossary", "preface", "appendix")) {
+
   type <- arg_match(type)
 
   content <- xml_children(xml_find_first(html, "//main[@id='quarto-document-content']"))
@@ -42,7 +61,7 @@ extract_main <- function(html, type = c("chapter", "part", "bibliography", "glos
   # Replace <html> with <section data-type="">, and move in nodes from
   # #quarto-document-content
   html_node <- xml_find_first(html, "//html")
-  section <- xml_replace(html_node, "section", "data-type" = type)
+  section <- xml_replace(html_node, if (type == "part") "div" else "section", "data-type" = type)
   for (node in content) {
     xml_add_child(section, node)
   }
@@ -119,16 +138,18 @@ callout_update <- function(html) {
 
     # Move non-default head to <h1>
     head <- xml_find_all(div, ".//div[contains(@class,'callout-caption-container')]")
-    if (tolower(xml_text(head, trim = TRUE)) != title) {
-      xml_name(head) <- "h1"
-      xml_attr(head, "class") <- NULL
-      xml_add_child(div, head)
-    } else {
-      xml_remove(head)
+    if (length(head) > 0) {
+      if (tolower(xml_text(head, trim = TRUE)) != title) {
+        xml_name(head) <- "h1"
+        xml_attr(head, "class") <- NULL
+        xml_add_child(div, head)
+      } else {
+        xml_remove(head)
+      }
     }
 
     # Hoist body out of div
-    body <- xml_find_all(div, "./div[contains(@class,'callout-body-container')]")
+    body <- xml_find_all(div, ".//div[contains(@class,'callout-body-container')]")
     for (node in xml_contents(body)) {
       xml_add_child(div, node)
     }

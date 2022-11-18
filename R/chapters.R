@@ -17,5 +17,7 @@ chapter_types <- function(path = "_quarto.yml") {
   appendices <- yaml$book$appendices %||% character()
   df <- rbind(df, tibble::tibble(path = appendices, type = "appendix"))
 
+  df <- df[df$path != "index.qmd", , drop = FALSE]
+
   setNames(df$type, tools::file_path_sans_ext(df$path))
 }
