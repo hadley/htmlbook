@@ -1,4 +1,4 @@
-#' @importFrom purrr map map2
+#' @importFrom purrr map map2 walk
 NULL
 
 process_book <- function(path = "_book", yaml = "_quarto.yml") {
@@ -35,7 +35,7 @@ process_book <- function(path = "_book", yaml = "_quarto.yml") {
 
   # Copy images
   resources <- files |> map(rmarkdown::find_external_resources)
-  paths <- resources |> map("path") |> list_c() |> unique()
+  paths <- resources |> map("path") |> purrr::list_c() |> unique()
   images <- paths[tools::file_ext(paths) %in% c("png", "jpg")]
 
   dirs <- images |> dirname() |> unique()
