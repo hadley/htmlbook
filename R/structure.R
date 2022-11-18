@@ -276,7 +276,7 @@ crossref_update <- function(html, filename) {
   xml_attr(section, "id") <- paste0("chp-", tools::file_path_sans_ext(filename))
 
   # Find all local links
-  a <- xml_find_all(html, "//a[not(contains(., '://'))]")
+  a <- xml_find_all(html, "//a[not(contains(@href, '://'))]")
   href <- xml_attr(a, "href")
 
   xml_remove(xml_contents(a))
