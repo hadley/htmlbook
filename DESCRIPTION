@@ -1,21 +1,19 @@
-Package: minibook
-Title: What the Package Does (One Line, Title Case)
+Package: htmlbook
+Title: Convert a Quarto book to O'Reilly's html book format
 Version: 0.0.0.9000
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
     person("RStudio", role = c("cph", "fnd"))
   )
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+Description: This is a fairly quick and dirty package to post-process a
+    Quarto html book into O'Reilly's htmlbook format.
+License: MIT + file LICENSE
 Imports: 
     brio,
-    purrr (>= 0.9000.0.9000),
+    purrr (>= 1.0.0),
     rlang,
     xml2,
     yaml
-Remotes:  
-    tidyverse/purrr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
