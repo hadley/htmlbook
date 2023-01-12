@@ -1,14 +1,19 @@
 #' @importFrom purrr map map2 walk
 NULL
 
-process_book <- function(path = "_book", yaml = "_quarto.yml") {
-  chapters <- chapter_types(yaml)
+#' Convert a quarto HTML book to O'Reilly's format
+#'
+#' @param src_path Path to rendered quarto HTML book
+#' @param desc_path Path to save O'Reilly htmlbook
+#' @export
+convert_book <- function(src_path = "_book", dest_path = "oreilly") {
+  chapters <- chapter_types(file.path(src_path, "_quarto.yml"))
 
   files <- paste0(path, "/", names(chapters), ".html")
   htmls <- lapply(files, read_html)
 
-  out_path <- file.path("oreilly/", basename(files))
-  dir.create("oreilly", showWarnings = FALSE)
+  out_path <- file.path(dest_path, basename(files))
+  dir.create(dest_path, showWarnings = FALSE)
   write_files <- function() {
     purrr::walk2(
       htmls,
