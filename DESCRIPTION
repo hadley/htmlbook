@@ -12,6 +12,8 @@ Imports:
     brio,
     purrr (>= 1.0.0),
     rlang,
+    rmarkdown,
+    tibble,
     xml2,
     yaml
 Encoding: UTF-8

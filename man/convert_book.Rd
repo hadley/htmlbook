@@ -7,9 +7,9 @@
 convert_book(src_path = "_book", dest_path = "oreilly")
 }
 \arguments{
-\item{src_path}{Path to rendered quarto HTML book}
+\item{src_path}{Path to rendered quarto HTML book.}
 
-\item{desc_path}{Path to save O'Reilly htmlbook}
+\item{dest_path}{Path to save O'Reilly htmlbook.}
 }
 \description{
 Convert a quarto HTML book to O'Reilly's format

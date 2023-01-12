@@ -1,3 +1,5 @@
 ^minibook\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^minibook$
+^htmlbook\.Rproj$

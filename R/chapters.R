@@ -19,5 +19,5 @@ chapter_types <- function(path = "_quarto.yml") {
 
   df <- df[df$path != "index.qmd", , drop = FALSE]
 
-  setNames(df$type, tools::file_path_sans_ext(df$path))
+  stats::setNames(df$type, tools::file_path_sans_ext(df$path))
 }
