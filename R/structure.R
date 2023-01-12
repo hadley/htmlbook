@@ -46,8 +46,8 @@ process_book <- function(path = "_book", yaml = "_quarto.yml") {
   file.copy(images, file.path("oreilly", images))
 
   # Copy plots
-  files <- dir("_bookdown_files", pattern = "_files$")
-  src_files <- file.path("_bookdown_files", files)
+  files <- dir("_book", pattern = "_files$")
+  src_files <- file.path("_book", files)
   dest_files <- file.path("oreilly", files)
   file.copy(src_files, "oreilly", recursive = TRUE)
 
@@ -129,6 +129,11 @@ section_update <- function(html) {
 }
 
 callout_update <- function(html) {
+
+  # Strip out book status divs
+  status <- xml_find_all(html, paste0("//div[contains(@class,'status')]"))
+  xml_remove(status)
+
   update_type <- function(type, title = type) {
     div <- xml_find_all(html, paste0("//div[contains(@class,'callout-", type, "')]"))
     if (length(div) == 0) return()
@@ -229,7 +234,7 @@ code_update <- function(html) {
   class <- xml_attr(pre, "class")
   pieces <- strsplit(class, " ")
   language <- vapply(pieces,
-    \(x) setdiff(x, c("sourceCode", "code-with-copy"))[1],
+    \(x) setdiff(x, c("sourceCode", "code-with-copy", "downlit"))[1],
     character(1)
   )
   xml_attr(pre, "data-code-language") <- language
@@ -261,9 +266,11 @@ figure_update <- function(html, filename) {
   xml_attr(img, "class") <- NULL
 
   caption <- xml_find_first(container, ".//figcaption")
-  xml_text(caption) <- gsub("Figure[ \u00a0]\\d+\\.\\d+: ", "", xml_text(caption))
   xml_attr(caption, "aria-hidden") <- NULL
   xml_attr(caption, "class") <- NULL
+
+  label <-  xml_find_first(container, ".//figcaption/text()[1]")
+  xml_text(label) <- gsub("Figure[ \u00a0]\\d+\\.\\d+: ", "", xml_text(label))
 
   p_empty <- xml_find_all(figure, ".//p[not(node())]")
   xml_remove(p_empty)

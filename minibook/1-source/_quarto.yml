@@ -1,5 +1,6 @@
 project:
   type: book
+  output-dir: ../2-rendered
 
 book:
   title: "minibook"
