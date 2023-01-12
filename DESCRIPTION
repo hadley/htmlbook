@@ -1,5 +1,5 @@
 Package: htmlbook
-Title: Convert a Quarto book to O'Reilly's html book format
+Title: Convert a Quarto book to O'Reilly's HTMLbook format
 Version: 0.0.0.9000
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),

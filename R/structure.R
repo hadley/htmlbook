@@ -4,7 +4,7 @@ NULL
 #' Convert a quarto HTML book to O'Reilly's format
 #'
 #' @param src_path Path to rendered quarto HTML book.
-#' @param dest_path Path to save O'Reilly htmlbook.
+#' @param dest_path Path to save O'Reilly compatible book.
 #' @export
 convert_book <- function(src_path = "_book", dest_path = "oreilly") {
   chapters <- chapter_types(file.path(src_path, "_quarto.yml"))

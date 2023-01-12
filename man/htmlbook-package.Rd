@@ -4,9 +4,17 @@
 \name{htmlbook-package}
 \alias{htmlbook}
 \alias{htmlbook-package}
-\title{htmlbook: Convert a Quarto book to O'Reilly's html book format}
+\title{htmlbook: Convert a Quarto book to O'Reilly's HTMLbook format}
 \description{
 This is a fairly quick and dirty package to post-process a Quarto html book into O'Reilly's htmlbook format.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/hadley/htmlbook}
+  \item Report bugs at \url{https://github.com/hadley/htmlbook/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Hadley Wickham \email{hadley@rstudio.com}
