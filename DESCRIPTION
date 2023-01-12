@@ -10,6 +10,7 @@ Description: This is a fairly quick and dirty package to post-process a
 License: MIT + file LICENSE
 Imports: 
     brio,
+    cli,
     purrr (>= 1.0.0),
     rlang,
     rmarkdown,

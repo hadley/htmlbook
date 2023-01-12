@@ -4,10 +4,12 @@
 \alias{convert_book}
 \title{Convert a quarto HTML book to O'Reilly's format}
 \usage{
-convert_book(src_path = "_book", dest_path = "oreilly")
+convert_book(src_path = ".", rendered_path = "_book", dest_path = "oreilly")
 }
 \arguments{
-\item{src_path}{Path to rendered quarto HTML book.}
+\item{src_path}{Path to quarto book source directory.}
+
+\item{rendered_path}{Path to rendered quarto HTML book.}
 
 \item{dest_path}{Path to save O'Reilly compatible book.}
 }

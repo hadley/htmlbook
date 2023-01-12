@@ -3,13 +3,16 @@ NULL
 
 #' Convert a quarto HTML book to O'Reilly's format
 #'
-#' @param src_path Path to rendered quarto HTML book.
+#' @param src_path Path to quarto book source directory.
+#' @param rendered_path Path to rendered quarto HTML book.
 #' @param dest_path Path to save O'Reilly compatible book.
 #' @export
-convert_book <- function(src_path = "_book", dest_path = "oreilly") {
+convert_book <- function(src_path = ".",
+                         rendered_path = "_book",
+                         dest_path = "oreilly") {
   chapters <- chapter_types(file.path(src_path, "_quarto.yml"))
 
-  files <- paste0(path, "/", names(chapters), ".html")
+  files <- paste0(rendered_path, "/", names(chapters), ".html")
   htmls <- lapply(files, read_html)
 
   out_path <- file.path(dest_path, basename(files))
@@ -19,10 +22,12 @@ convert_book <- function(src_path = "_book", dest_path = "oreilly") {
       htmls,
       out_path,
       write_html,
-      options = c("format", "no_declaration", "require_xhtml")
+      options = c("format", "no_declaration", "require_xhtml"),
+      .progress = "writing"
     )
   }
 
+  cli::cli_inform("Processing {length(chapters)} chapter{?s}")
   map2(htmls, chapters, extract_main, .progress = "main")
   map(htmls, header_update, .progress = "header")
   map(htmls, footnote_update, .progress = "footnote")
@@ -41,6 +46,7 @@ convert_book <- function(src_path = "_book", dest_path = "oreilly") {
   }
 
   # Copy images
+  cli::cli_inform("Extracting external resources")
   resources <- files |> map(rmarkdown::find_external_resources)
   paths <- resources |> map("path") |> purrr::list_c() |> unique()
   images <- paths[tools::file_ext(paths) %in% c("png", "jpg")]
@@ -51,6 +57,7 @@ convert_book <- function(src_path = "_book", dest_path = "oreilly") {
   file.copy(images, file.path("oreilly", images))
 
   # Copy plots
+  cli::cli_inform("Copying plots")
   files <- dir("_book", pattern = "_files$")
   src_files <- file.path("_book", files)
   dest_files <- file.path("oreilly", files)
