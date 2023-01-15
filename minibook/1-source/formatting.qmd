@@ -66,6 +66,10 @@ This is a numbered list:
 This is a note
 :::
 
+::: callout-note
+This is a second note
+:::
+
 ::: callout-warning
 This is a warning
 :::
