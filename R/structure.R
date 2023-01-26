@@ -152,32 +152,38 @@ callout_update <- function(html) {
   xml_remove(status)
 
   update_type <- function(type, title = type) {
-    div <- xml_find_all(html, paste0("//div[contains(@class,'callout-", type, "')]"))
-    if (length(div) == 0) return()
+    divs <- xml_find_all(html, paste0("//div[contains(@class,'callout-", type, "')]"))
+    if (length(divs) == 0) return()
 
     # Use O'Reilly data-type instead of class
-    xml_attr(div, "class") <- NULL
-    xml_attr(div, "data-type") <- type
-    xml_add_sibling(div, text("\n"), .where = "after")
+    xml_attr(divs, "class") <- NULL
+    xml_attr(divs, "data-type") <- type
+    xml_add_sibling(divs, text("\n"), .where = "after")
 
     # Move non-default head to <h1>
-    head <- xml_find_all(div, ".//div[contains(@class,'callout-caption-container')]")
-    if (length(head) > 0) {
-      if (tolower(xml_text(head, trim = TRUE)) != title) {
-        xml_name(head) <- "h1"
-        xml_attr(head, "class") <- NULL
-        xml_add_child(div, head)
-      } else {
-        xml_remove(head)
+    heads <- xml_find_first(divs, ".//div[contains(@class,'callout-caption-container')]")
+    if (length(heads) > 0) {
+      custom_title <- tolower(xml_text(heads, trim = TRUE)) != title
+      xml_remove(heads[!custom_title])
+
+      # Turn into h1 at start of callout div
+      xml_name(heads[custom_title]) <- "h1"
+      xml_attr(heads[custom_title], "class") <- NULL
+      for (i in which(custom_title)) {
+        xml_add_child(divs[[i]], heads[[i]], .where = 0)
       }
+
     }
 
     # Hoist body out of div
-    body <- xml_find_all(div, ".//div[contains(@class,'callout-body-container')]")
-    for (node in xml_contents(body)) {
-      xml_add_child(div, node)
+    for (div in divs) {
+      body <- xml_find_all(div, ".//div[contains(@class,'callout-body-container')]")
+      for (node in xml_contents(body)) {
+        xml_add_child(div, node)
+      }
+      xml_remove(body)
+
     }
-    xml_remove(body)
 
     # Remove excess new lines
     blank <- xml_find_all(div, "text()[.='\n']")

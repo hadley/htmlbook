@@ -1,41 +1,41 @@
 
 ## Callouts
 
+### Default headings
+
 ::: callout-note
-This is a note
+Note 1
 :::
 
 ::: callout-note
-This is a second note
+Note 2
 :::
 
 ::: callout-warning
-This is a warning
+Warning
 :::
 
 ::: callout-tip
-This is a tip
+Tip
 :::
 
 ::: callout-caution
-This is a caution
+Caution
 :::
 
 ::: callout-important
-## This is a heading
+Important 1
+:::
 
-Important callout 1
+
+### Custom headings
+
+::: callout-important
+## Heading important 2
+Important 2
 :::
 
 ::: callout-important
-## This is a heading
-
-Important callout 2
+## Heading important 3
+Important 3
 :::
-
-::: callout-important
-## This is different heading
-
-Important callout 3
-:::
-
