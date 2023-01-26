@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>minibook - 2&nbsp; Formatting</title>
+<title>minibook - 3&nbsp; Callouts</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./callouts.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./code.html" rel="next">
+<link href="./formatting.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -70,7 +70,7 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Formatting</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Callouts</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -100,12 +100,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./formatting.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Formatting</span></a>
+  <a href="./formatting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Formatting</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./callouts.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Callouts</span></a>
+  <a href="./callouts.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Callouts</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -158,22 +158,14 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#inline" id="toc-inline" class="nav-link active" data-scroll-target="#inline"><span class="toc-section-number">2.1</span>  Inline</a></li>
-  <li><a href="#cross-links" id="toc-cross-links" class="nav-link" data-scroll-target="#cross-links"><span class="toc-section-number">2.2</span>  Cross-links</a></li>
-  <li><a href="#sec-lists" id="toc-sec-lists" class="nav-link" data-scroll-target="#sec-lists"><span class="toc-section-number">2.3</span>  Lists</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Formatting</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Callouts</span></h1>
 </div>
 
 
@@ -188,56 +180,112 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="inline" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="inline"><span class="header-section-number">2.1</span> Inline</h2>
-<ul>
-<li><em>italic</em></li>
-<li><strong>bold</strong></li>
-<li><code>code</code></li>
-<li>footnote<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
-<li>footnote with style<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
-</ul>
-</section>
-<section id="cross-links" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="cross-links"><span class="header-section-number">2.2</span> Cross-links</h2>
-<ul>
-<li>Figure: <a href="code.html#fig-hist">Figure&nbsp;<span>4.1</span></a></li>
-<li>Within page: <a href="#sec-lists"><span>Section&nbsp;2.3</span></a></li>
-<li>Across page: <a href="code.html#sec-code"><span>Section&nbsp;4.1</span></a></li>
-<li>Chapter: <a href="code.html"><span>Chapter&nbsp;4</span></a></li>
-</ul>
-</section>
-<section id="sec-lists" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="sec-lists"><span class="header-section-number">2.3</span> Lists</h2>
-<p>This is a tight bulleted list:</p>
-<ul>
-<li>Bullet 1</li>
-<li>Bullet 2</li>
-<li>Bullet 3</li>
-</ul>
-<p>This is a loose bulleted list:</p>
-<ul>
-<li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel urna id dui posuere gravida ut non nunc. Phasellus porttitor luctus tristique. Nulla mollis accumsan ligula. Vestibulum et posuere turpis. Phasellus porttitor urna metus, at sodales libero imperdiet eu. Pellentesque efficitur diam consectetur ex bibendum, quis luctus tortor ullamcorper. Pellentesque feugiat fringilla justo non tempor.</p></li>
-<li><p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus vitae diam quis justo auctor varius eget in est. Donec gravida tempor lorem non auctor. Etiam in ultricies diam. Curabitur purus sem, pretium viverra pharetra eget, consequat eget tortor. Integer ac ex non erat condimentum efficitur. Nunc nunc mi, dignissim vel commodo at, feugiat vitae diam.</p></li>
-<li><p>Nam metus velit, dapibus tristique lacinia vitae, interdum nec arcu. Praesent magna nunc, porta maximus ex non, sodales euismod justo. Sed sit amet egestas justo. Proin in lectus in dui rutrum porttitor vel eu arcu. Pellentesque lorem ex, ullamcorper eget vulputate sed, maximus vitae diam. Phasellus risus orci, volutpat in magna at, placerat molestie lacus. Proin sapien tortor, consectetur sed est vitae, imperdiet finibus sem.</p></li>
-</ul>
-<p>This is a numbered list:</p>
-<ol type="1">
-<li>First element</li>
-<li>Second</li>
-<li>Third</li>
-<li>Fourth</li>
-</ol>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a note</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a second note</p>
+</div>
+</div>
+<div class="callout-warning callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a warning</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a tip</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Danger
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a caution</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+This is a heading
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Important callout 1</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+This is a heading
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Important callout 2</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+This is different heading
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Important callout 3</p>
+</div>
+</div>
 
 
-</section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>This is a footnote.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>This is another footnote, but <em>this</em> one <code>has</code> <strong>style</strong>!<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -375,13 +423,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Index</span></span>
+      <a href="./formatting.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Formatting</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./callouts.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Callouts</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./code.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Code and figures</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

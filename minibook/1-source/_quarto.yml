@@ -8,6 +8,7 @@ book:
   chapters:
     - index.qmd
     - formatting.qmd
+    - callouts.qmd
     - code.qmd
     - part: part-1.qmd
       chapters:

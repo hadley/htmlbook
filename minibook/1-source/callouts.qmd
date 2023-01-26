@@ -1,0 +1,41 @@
+
+## Callouts
+
+::: callout-note
+This is a note
+:::
+
+::: callout-note
+This is a second note
+:::
+
+::: callout-warning
+This is a warning
+:::
+
+::: callout-tip
+This is a tip
+:::
+
+::: callout-caution
+This is a caution
+:::
+
+::: callout-important
+## This is a heading
+
+Important callout 1
+:::
+
+::: callout-important
+## This is a heading
+
+Important callout 2
+:::
+
+::: callout-important
+## This is different heading
+
+Important callout 3
+:::
+

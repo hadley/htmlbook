@@ -59,31 +59,3 @@ This is a numbered list:
 2.  Second
 3.  Third
 4.  Fourth
-
-## Callouts
-
-::: callout-note
-This is a note
-:::
-
-::: callout-note
-This is a second note
-:::
-
-::: callout-warning
-This is a warning
-:::
-
-::: callout-tip
-This is a tip
-:::
-
-::: callout-caution
-This is a caution
-:::
-
-::: callout-important
-## This is a heading
-
-This is important!
-:::
