@@ -186,7 +186,7 @@ callout_update <- function(html) {
     }
 
     # Remove excess new lines
-    blank <- xml_find_all(div, "text()[.='\n']")
+    blank <- xml_find_all(divs, "text()[.='\n']")
     xml_remove(blank)
   }
 
