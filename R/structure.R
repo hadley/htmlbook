@@ -1,6 +1,10 @@
 #' @importFrom purrr map map2 walk
 NULL
 
+convert_minibook <- function() {
+  convert_book("minibook/1-source/", "minibook/2-rendered/", "minibook/3-htmlbook/")
+}
+
 #' Convert a quarto HTML book to O'Reilly's format
 #'
 #' @param src_path Path to quarto book source directory.
@@ -14,6 +18,7 @@ convert_book <- function(src_path = ".",
 
   files <- paste0(rendered_path, "/", names(chapters), ".html")
   htmls <- lapply(files, read_html)
+  names(htmls) <- paste0(names(chapters), ".qmd")
 
   out_path <- file.path(dest_path, basename(files))
   dir.create(dest_path, showWarnings = FALSE)
